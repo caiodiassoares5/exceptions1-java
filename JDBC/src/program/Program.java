@@ -36,10 +36,8 @@ public class Program {
 			throw new DbException("Erro na integraçao com banco de dados: " + e.getMessage());
 		}
 		
-		
-	
-		
-		
+		DB.closeStatement();
+		DB.closeResultSet();
 		DB.closeConnection();
 
 	}

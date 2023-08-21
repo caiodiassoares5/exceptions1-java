@@ -4,7 +4,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 
 import model.exceptions.DbException;
@@ -12,19 +14,18 @@ import model.exceptions.DbException;
 public class DB {
 
 	private static Connection conn = null;
+	private static Statement statement = null;
+	private static ResultSet resultSet = null;
 	
 	
 	public static Connection getConnection() {
 		
-		if (conn == null) {
-			
+		if (conn == null) {			
 			try {
 				Properties properties = loadProperties();
 				String url = properties.getProperty("dburl");
-				conn = DriverManager.getConnection(url, properties);				
-				
-			} catch (SQLException e) {
-				
+				conn = DriverManager.getConnection(url, properties);					
+			} catch (SQLException e) {				
 				throw new DbException("Erro de conexão com banco de dados. " + e.getMessage());
 			}
 		}
@@ -46,6 +47,28 @@ public class DB {
 		
 	}
 	
+	
+	public static void closeStatement() {
+		if (!(statement == null)) {			
+			try {
+				statement.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				throw new DbException("Erro ao encerrar a sentença SQL com banco de dados. " + e.getMessage());
+			}			
+		}		
+	}
+	
+	public static void closeResultSet() {
+		if (!(resultSet == null)) {			
+			try {
+				statement.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				throw new DbException("Erro ao encerrar o conjunto de resultados com banco de dados. " + e.getMessage());
+			}			
+		}		
+	}
 	
 	
 	public static Properties loadProperties() {		
