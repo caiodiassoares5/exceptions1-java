@@ -1,0 +1,14 @@
+package model.exceptions;
+
+public class DbException extends RuntimeException {
+
+	private static final long serialVersionUID = 1L;
+
+	public DbException(String message) {
+		super(message);
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+	
+}
